@@ -141,16 +141,16 @@ document.addEventListener('keyup', function(e) {
 });
 
 //this doesnt do anything... WHY?
-function checkCollisions(player, enemy) {
+function checkCollisions() {
     for (enemy in allEnemies){
-        console.log('enemy');
-        if (player.x - enemy[i].x  < 50 && player.y - enemy[i].y < 50){
-            reset()
+       // console.log(allEnemies[enemy]);
+       // console.log(enemy);
+        if (player.x - allEnemies[enemy].x  < 50 && player.y - allEnemies[enemy].y < 50){
+            console.log("boom!");
         }
-        else{
-            reset();
+        else {
+            console.log("yeahhhhh!")
+            
         }
     }
 }
-
-
