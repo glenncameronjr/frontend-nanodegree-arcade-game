@@ -61,6 +61,7 @@ var Player = function () {
     this.playerX = 0;
     this.x = this.startPosX();
     this.y = this.startPosY();
+    this.blood = 'images/blood.png';
     
     
 
@@ -72,7 +73,7 @@ Player.prototype.startPosX = function() {
 }
 
 Player.prototype.startPosY = function() {
-    var startY = 450;
+    var startY = 430;
     return startY;
 }
 Player.prototype.move = function() {
@@ -88,6 +89,11 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
+Player.prototype.reset = function() {
+    this.x = 200;
+    this.y = 430;
+}
+
 Player.prototype.handleInput = function(key) {
    switch(key) {
         case 'left':
@@ -95,8 +101,8 @@ Player.prototype.handleInput = function(key) {
             this.x-=100;
             break;
         case 'up':
-            if(this.y > 0)
-            this.y-=90;
+            if(this.y > 100)
+            this.y-=95;
             break;
         case 'right':
             if(this.x < 400)
@@ -104,7 +110,7 @@ Player.prototype.handleInput = function(key) {
             break;
         case 'down':
             if(this.y < 400)
-            this.y+=90;
+            this.y+=95;
             break;
         default:
             return;
@@ -126,6 +132,17 @@ allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 
 var player = new Player();
 
+//background music
+var snd = new Audio("sound/overworld.mp3");
+snd.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+
+snd.play()
+
+//splay sound
+var hitSound = new Audio("sound/splat.mp3");
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -143,14 +160,13 @@ document.addEventListener('keyup', function(e) {
 //this doesnt do anything... WHY?
 function checkCollisions() {
     for (enemy in allEnemies){
-       // console.log(allEnemies[enemy]);
-       // console.log(enemy);
-        if (player.x - allEnemies[enemy].x  < 50 && player.y - allEnemies[enemy].y < 50){
-            console.log("boom!");
-        }
-        else {
-            console.log("yeahhhhh!")
-            
+        if ((player.x - allEnemies[enemy].x < 50 && player.y - allEnemies[enemy].y < 50) && (player.x - allEnemies[enemy].x > -50 && player.y - allEnemies[enemy].y > -50)){
+            //ctx.drawImage('images/blood.png',10,10);
+           // add blood and sound.
+            hitSound.play();
+            player.reset();
         }
     }
 }
+
+
