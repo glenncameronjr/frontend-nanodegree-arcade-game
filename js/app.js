@@ -2,33 +2,29 @@
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.enemyY = [60,145,230];
+    this.enemyY = [60, 145, 230];
     this.x = this.startPosX();
     this.y = this.startPosY();
-
 }
 
 Enemy.prototype.startPosX = function() {
-    var startX = -(Math.round(Math.random()*400));
+    var startX = -(Math.round(Math.random() * 400));
     return startX;
 }
 
 Enemy.prototype.startPosY = function() {
-    var startY = this.enemyY[Math.round(Math.random()*2)];
+    var startY = this.enemyY[Math.round(Math.random() * 2)];
     return startY;
 }
 
-
 Enemy.prototype.reset = function() {
-//to take care of the bug's speed and to ensure it is random as well as it's starting position
-    this.x+=300*dt;
+    //to take care of the bug's speed and to ensure it is random as well as it's starting position
+    //this.x+=300*dt;
     this.x = this.startPosX();
     this.y = this.startPosY();
-
 }
 
 
@@ -38,13 +34,11 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    if(this.x < 500){
-        this.x+=200*dt;
-    }
-    else{
+    if (this.x < 500) {
+        this.x += 200 * dt;
+    } else {
         this.x = this.startPosX();
         this.y = this.startPosY();
-        this.x+=300*dt;
     }
 }
 
@@ -56,15 +50,12 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var Player = function () {
-    this.sprite = 'images/char-boy.png';
+var Player = function() {
+    this.sprite = 'images/char-link.png';
     this.playerX = 0;
     this.x = this.startPosX();
     this.y = this.startPosY();
     this.blood = 'images/blood.png';
-    
-    
-
 }
 
 Player.prototype.startPosX = function() {
@@ -76,14 +67,12 @@ Player.prototype.startPosY = function() {
     var startY = 430;
     return startY;
 }
+
 Player.prototype.move = function() {
     this.loc++;
 };
 
-Player.prototype.update = function(dt) {
-
-
-}
+Player.prototype.update = function(dt) {}
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -94,30 +83,29 @@ Player.prototype.reset = function() {
     this.y = 430;
 }
 
+//Check for which key was pressed and move the player
 Player.prototype.handleInput = function(key) {
-   switch(key) {
+    switch (key) {
         case 'left':
-            if(this.x > 0)
-            this.x-=100;
+            if (this.x > 0)
+                this.x -= 100;
             break;
         case 'up':
-            if(this.y > 100)
-            this.y-=95;
+            if (this.y > 100)
+                this.y -= 95;
             break;
         case 'right':
-            if(this.x < 400)
-            this.x+=100;
+            if (this.x < 400)
+                this.x += 100;
             break;
         case 'down':
-            if(this.y < 400)
-            this.y+=95;
+            if (this.y < 400)
+                this.y += 95;
             break;
         default:
             return;
     }
 }
-
-
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -128,8 +116,6 @@ var enemy3 = new Enemy();
 var enemy4 = new Enemy();
 var enemy5 = new Enemy();
 allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
-
-
 var player = new Player();
 
 //background music
@@ -159,14 +145,11 @@ document.addEventListener('keyup', function(e) {
 
 //this doesnt do anything... WHY?
 function checkCollisions() {
-    for (enemy in allEnemies){
-        if ((player.x - allEnemies[enemy].x < 50 && player.y - allEnemies[enemy].y < 50) && (player.x - allEnemies[enemy].x > -50 && player.y - allEnemies[enemy].y > -50)){
-            //ctx.drawImage('images/blood.png',10,10);
-           // add blood and sound.
+    for (enemy in allEnemies) {
+        if ((player.x - allEnemies[enemy].x < 50 && player.y - allEnemies[enemy].y < 50) && (player.x - allEnemies[enemy].x > -50 && player.y - allEnemies[enemy].y > -50)) {
+            // add blood and sound.
             hitSound.play();
             player.reset();
         }
     }
 }
-
-
